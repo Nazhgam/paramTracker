@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/Nazhgam/paramTracker/internal/models"
-	"github.com/labstack/echo/v4"
 )
 
 // @Summary Create a new point
@@ -38,7 +37,7 @@ func (h *handler) CreatePoint(e echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param alias query string true "Alias for the parameter"
-// @Success 200 {object} models.IDResponse "Last ID"
+// @Success 200 {object} models.LastIDResult "Last ID"
 // @Failure 400 {object} string "Bad Request"
 // @Router /api/v1/lastID [get]
 func (h *handler) GetLastID(e echo.Context) error {

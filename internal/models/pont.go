@@ -6,5 +6,3 @@ type Point struct {
 	Alias   string `json:"alias" db:"alias"`
 	Pass    string `json:"pass" db:"pass"`
 }
-
-// todo need to know type of this param

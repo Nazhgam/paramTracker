@@ -1,0 +1,238 @@
+basePath: /
+definitions:
+  models.GPS:
+    properties:
+      gps_id:
+        type: integer
+      lat:
+        type: number
+      lon:
+        type: number
+      point_gps_id:
+        type: integer
+      point_id:
+        type: integer
+      speed:
+        type: number
+      time:
+        type: string
+    type: object
+  models.LastIDResult:
+    properties:
+      int_point_id:
+        type: integer
+      paramsStr:
+        $ref: '#/definitions/models.ParamStr'
+      point_gps_id:
+        type: integer
+    type: object
+  models.ParamInt:
+    properties:
+      channel:
+        type: integer
+      int_id:
+        type: integer
+      int_point_id:
+        type: integer
+      point_id:
+        type: integer
+      time:
+        type: string
+      value:
+        type: integer
+    type: object
+  models.ParamStr:
+    properties:
+      channel:
+        type: integer
+      point_id:
+        type: integer
+      string_id:
+        type: integer
+      string_point_id:
+        type: integer
+      time:
+        type: string
+      value:
+        type: string
+    type: object
+  models.Point:
+    properties:
+      alias:
+        type: string
+      name:
+        type: string
+      pass:
+        type: string
+      point_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: ТЗ.
+  title: param_tracker
+  version: "1.0"
+paths:
+  /api/v1//gps-by-alias:
+    post:
+      consumes:
+      - application/json
+      description: Create a new GPS record
+      parameters:
+      - description: Alias for GPS record
+        in: query
+        name: alias
+        required: true
+        type: string
+      - description: GPS record object
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.GPS'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No content
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      summary: Create GPS record
+      tags:
+      - GPS
+  /api/v1/lastID:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the last ID associated with the provided alias
+      parameters:
+      - description: Alias for the parameter
+        in: query
+        name: alias
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Last ID
+          schema:
+            $ref: '#/definitions/models.LastIDResult'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get the last ID by alias
+      tags:
+      - Parameters
+  /api/v1/param-int-by-alias:
+    post:
+      consumes:
+      - application/json
+      description: Create a new integer parameter with the provided alias and value
+      parameters:
+      - description: Alias for the parameter
+        in: query
+        name: alias
+        required: true
+        type: string
+      - description: Parameter details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParamInt'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new integer parameter
+      tags:
+      - Parameters
+  /api/v1/param-str-by-alias:
+    post:
+      consumes:
+      - application/json
+      description: Create a new string parameter with the provided alias and value
+      parameters:
+      - description: Alias for the parameter
+        in: query
+        name: alias
+        required: true
+        type: string
+      - description: Parameter details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.ParamStr'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new string parameter
+      tags:
+      - Parameters
+  /api/v1/point:
+    post:
+      consumes:
+      - application/json
+      description: Create a new point with the provided details
+      parameters:
+      - description: Point details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.Point'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new point
+      tags:
+      - Points
+  /gps:
+    get:
+      consumes:
+      - application/json
+      description: Get all GPS records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of GPS records
+          schema:
+            items:
+              $ref: '#/definitions/models.GPS'
+            type: array
+      summary: Get all GPS records
+      tags:
+      - GPS
+swagger: "2.0"

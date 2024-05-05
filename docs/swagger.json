@@ -1,0 +1,363 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "ТЗ.",
+        "title": "param_tracker",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/v1//gps-by-alias": {
+            "post": {
+                "description": "Create a new GPS record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPS"
+                ],
+                "summary": "Create GPS record",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Alias for GPS record",
+                        "name": "alias",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "GPS record object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GPS"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lastID": {
+            "get": {
+                "description": "Retrieve the last ID associated with the provided alias",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parameters"
+                ],
+                "summary": "Get the last ID by alias",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Alias for the parameter",
+                        "name": "alias",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Last ID",
+                        "schema": {
+                            "$ref": "#/definitions/models.LastIDResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/param-int-by-alias": {
+            "post": {
+                "description": "Create a new integer parameter with the provided alias and value",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parameters"
+                ],
+                "summary": "Create a new integer parameter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Alias for the parameter",
+                        "name": "alias",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Parameter details",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ParamInt"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/param-str-by-alias": {
+            "post": {
+                "description": "Create a new string parameter with the provided alias and value",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parameters"
+                ],
+                "summary": "Create a new string parameter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Alias for the parameter",
+                        "name": "alias",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Parameter details",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ParamStr"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/point": {
+            "post": {
+                "description": "Create a new point with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Create a new point",
+                "parameters": [
+                    {
+                        "description": "Point details",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Point"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/gps": {
+            "get": {
+                "description": "Get all GPS records",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPS"
+                ],
+                "summary": "Get all GPS records",
+                "responses": {
+                    "200": {
+                        "description": "List of GPS records",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.GPS"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.GPS": {
+            "type": "object",
+            "properties": {
+                "gps_id": {
+                    "type": "integer"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lon": {
+                    "type": "number"
+                },
+                "point_gps_id": {
+                    "type": "integer"
+                },
+                "point_id": {
+                    "type": "integer"
+                },
+                "speed": {
+                    "type": "number"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LastIDResult": {
+            "type": "object",
+            "properties": {
+                "int_point_id": {
+                    "type": "integer"
+                },
+                "paramsStr": {
+                    "$ref": "#/definitions/models.ParamStr"
+                },
+                "point_gps_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ParamInt": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "integer"
+                },
+                "int_id": {
+                    "type": "integer"
+                },
+                "int_point_id": {
+                    "type": "integer"
+                },
+                "point_id": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ParamStr": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "integer"
+                },
+                "point_id": {
+                    "type": "integer"
+                },
+                "string_id": {
+                    "type": "integer"
+                },
+                "string_point_id": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Point": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "point_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
