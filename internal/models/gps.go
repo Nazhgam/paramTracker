@@ -11,3 +11,9 @@ type GPS struct {
 	Speed      float64   `json:"speed" db:"speed"`
 	Time       time.Time `json:"time" db:"time"`
 }
+
+type LastIDResult struct {
+	PointGpsID int      `json:"point_gps_id" db:"point_gps_id"`
+	IntPointID int      `json:"int_point_id" db:"int_point_id"`
+	ParamsStr  ParamStr `json:"params_string`
+}

@@ -9,14 +9,14 @@ import (
 
 type IGps interface {
 	Create(ctx context.Context, data models.GPS) error
-	GetByPointID(ctx context.Context, pointID int) (*models.GPS, error)
+	GetAll(ctx context.Context) ([]models.GPS, error)
 }
 
 type gps struct {
-	db pgxpool.Pool
+	db *pgxpool.Pool
 }
 
-func NewGps(db pgxpool.Pool) IGps {
+func NewGps(db *pgxpool.Pool) IGps {
 	return &gps{db: db}
 }
 
@@ -29,21 +29,34 @@ func (g *gps) Create(ctx context.Context, data models.GPS) error {
 	return nil
 }
 
-func (g *gps) GetByPointID(ctx context.Context, pointID int) (*models.GPS, error) {
+func (g *gps) GetAll(ctx context.Context) ([]models.GPS, error) {
+	var (
+		result []models.GPS
+		data   models.GPS
+	)
 
-	var data models.GPS
-
-	if err := g.db.QueryRow(ctx, getGpsByPointID, pointID).Scan(
-		&data.GpsID,
-		&data.PointID,
-		&data.PointGpsID,
-		&data.Lat,
-		&data.Lon,
-		&data.Speed,
-		&data.Time,
-	); err != nil {
+	rows, err := g.db.Query(ctx, getAllGps)
+	if err != nil {
 		return nil, err
 	}
 
-	return &data, nil
+	for rows.Next() {
+		data = models.GPS{}
+
+		if err := rows.Scan(
+			&data.GpsID,
+			&data.PointID,
+			&data.PointGpsID,
+			&data.Lat,
+			&data.Lon,
+			&data.Speed,
+			&data.Time,
+		); err != nil {
+			return nil, err
+		}
+
+		result = append(result, data)
+	}
+
+	return result, nil
 }

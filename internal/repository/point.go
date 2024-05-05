@@ -8,43 +8,25 @@ import (
 )
 
 type IPoint interface {
-	GetAll(ctx context.Context, id int) ([]models.Point, error)
-	GetByID(ctx context.Context, id int) (*models.Point, error)
+	GetByAlias(ctx context.Context, alias string) (*models.Point, error)
 	Create(ctx context.Context, data models.Point) error
+	GetLastID(ctx context.Context, pointID int) (*models.LastIDResult, error)
 }
 
 type point struct {
-	db pgxpool.Pool
+	db *pgxpool.Pool
 }
 
-func NewPoint(db pgxpool.Pool) IPoint {
+func NewPoint(db *pgxpool.Pool) IPoint {
 	return &point{
 		db: db,
 	}
 }
 
-func (p *point) GetAll(ctx context.Context, id int) ([]models.Point, error) {
-	rows, err := p.db.Query(ctx, getAllPoint)
-	if err != nil {
-		return nil, err
-	}
-
-	var ponts []models.Point
-	for rows.Next() {
-		var p models.Point
-		if err := rows.Scan(&p.PointID, &p.Name, &p.Alias); err != nil {
-			return nil, err
-		}
-
-		ponts = append(ponts, p)
-	}
-	return ponts, nil
-}
-
-func (p *point) GetByID(ctx context.Context, id int) (*models.Point, error) {
+func (p *point) GetByAlias(ctx context.Context, alias string) (*models.Point, error) {
 	var data models.Point
 
-	if err := p.db.QueryRow(ctx, getByIDPoint, id).Scan(
+	if err := p.db.QueryRow(ctx, getByAliasPoint, alias).Scan(
 		&data.PointID,
 		&data.Name,
 		&data.Alias,
@@ -61,4 +43,21 @@ func (p *point) Create(ctx context.Context, data models.Point) error {
 	}
 
 	return nil
+}
+
+func (p *point) GetLastID(ctx context.Context, pointID int) (*models.LastIDResult, error) {
+	var r models.LastIDResult
+	if err := p.db.QueryRow(ctx, getLastIDByAlias, pointID).Scan(
+		&r.PointGpsID,
+		&r.ParamsStr.ID,
+		&r.ParamsStr.StringPointID,
+		&r.ParamsStr.PointID,
+		&r.ParamsStr.Channel,
+		&r.ParamsStr.Value,
+		&r.ParamsStr.Time,
+		&r.IntPointID,
+	); err != nil {
+		return nil, err
+	}
+	return &r, nil
 }
