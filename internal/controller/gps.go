@@ -17,7 +17,7 @@ import (
 // @Param body body models.GPS true "GPS record object"
 // @Success 204 {string} string "No content"
 // @Failure 400 {string} string "Bad request"
-// @Router /api/v1//gps-by-alias [post]
+// @Router /api/v1/gps-by-alias [post]
 func (h *handler) CreateGps(e echo.Context) error {
 	var req models.GPS
 

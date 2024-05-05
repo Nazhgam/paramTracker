@@ -9,7 +9,7 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
-        "/api/v1//gps-by-alias": {
+        "/api/v1/gps-by-alias": {
             "post": {
                 "description": "Create a new GPS record",
                 "consumes": [

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Nazhgam/paramTracker/internal/models"
+	"github.com/labstack/echo/v4"
 )
 
 // @Summary Create a new point

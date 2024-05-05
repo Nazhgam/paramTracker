@@ -74,7 +74,7 @@ info:
   title: param_tracker
   version: "1.0"
 paths:
-  /api/v1//gps-by-alias:
+  /api/v1/gps-by-alias:
     post:
       consumes:
       - application/json
